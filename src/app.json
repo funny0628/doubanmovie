@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/moveindex/main",
+    "pages/movedetail/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  }
+
+}
