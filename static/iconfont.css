@@ -1,0 +1,31 @@
+@font-face {font-family: "iconfont";
+  src: url('//at.alicdn.com/t/font_1957796_c72mhvfw1ht.eot?t=1595331438433'); /* IE9 */
+  src: url('//at.alicdn.com/t/font_1957796_c72mhvfw1ht.eot?t=1595331438433#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAPEAAsAAAAAB+gAAAN3AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqDGIJcATYCJAMQCwoABCAFhG0HVBvaBsi+QDaGQ6x3ApIkRoutLYyzm5vWSb6DLQ+Y34uHp7Ha+zOze3NihlgS02TVJBFJRC5BtRCpUPF0RLHuP+73+zPEdEgSl6Sye9/27Bq7A09izSTRiHglNPtqzeOnkpELwg0QQBZ/6uYPe/z2xIC3aGrL29hG6zx/2IDzCFKNdCAeanJ7Tq8iTDGTJPDYSqhz+fzXZKrHfp/ncnpTD/iu+pblMtbWOZ8fBhhvDWiMYVGUBVyiiVnD2JUXcZ1AmykZ0MGmjm7wUhjzAnHHbiXglfIoNfWhCs2SrQXiEXBX0wb6COCh//34D3lVkDQyGEvPXmu0QM0v+LkD32cz7BJAO14IbBcZ64BC3CiNXOIaZtZx1aaMdrMZqKrEWH3bvh0M0u3FUs2/PEKSiSYYtR1gI8pmfrFDwtlpoZzEnx01MryQ2RUtuAs8RezEq4okxlAfGg8Yn/d595bjGa8/gR6/1nm66+s7+peg8PPZbX1gb7D2g0b5eMyOmt8XpcH9cegfL/8FPf27S8pkb4rBvoN6VxiQ9kmbe+TAnkAaUdt7Jj9eX3xxqm+FSh6eQ/rMRG/U6x48v1bWn/QvhCQOJgEsX/9OUFh/QBG6+NiBhkKsQQD2/KmbsjdXN7s/aXVj9sul/qsqbvzGOzaDLzo+VqavWuP9Ay031W0p9UC3YJFjF15aN64xS2jIfnFvgyyd7hEu+iCuqOk3jAKDMTzvdFl+Tsmu+jMw8W3aH7vP83+BFf+9cgP4ufPXoL69F+C1axXt/3EVqCEaVL3hLUU2q1XZFjBWbLjFOQlt2vBXCvT5OoZ1cAaNG6sGYyQtJpFVC2Rh16Gh3UY0VXvQZq3m3e36ca6ieANrrACEHmdIurxC1uOOLOwXNAz5h6aeMtqci9Aj263opk89p0RQC5ZmsV3WNWb5hU9Q30mtkwrhSb3P91Ju2uM4Nysnm2+mGuVjrDCnrHlCMMy4ruImcBtVFB0bXHdQWWTZhDDKsrNZ2ZOyZF0FHwdwFCFQFphkFmYn02mY21zwyX2+E2U1SUHwGlFFsRfFmeyDY7my5LQgmy1aK9G1PGKaYpVHEBiM4XQqrAmEKMXM6DCjfJIDJROy2HqkDGWyUSPW1pI1v019wi3QxlhawgW5IjfkDn2zE23Oum5MoWSKZsq6MettCsIzbURhYRmbVBQAAA==') format('woff2'),
+  url('//at.alicdn.com/t/font_1957796_c72mhvfw1ht.woff?t=1595331438433') format('woff'),
+  url('//at.alicdn.com/t/font_1957796_c72mhvfw1ht.ttf?t=1595331438433') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('//at.alicdn.com/t/font_1957796_c72mhvfw1ht.svg?t=1595331438433#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-dianzan_leave-copy:before {
+  content: "\e600";
+  color: #f4ea2a;
+}
+
+.icon-star-half:before {
+  content: "\e839";
+  color: #ff9c00;
+}
+
+.icon-star-full:before {
+  content: "\e83b";
+  color: #ff9c00;
+}

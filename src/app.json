@@ -1,12 +1,13 @@
 {
   "pages": [
     "pages/moveindex/main",
+    "pages/moremove/main",
     "pages/movedetail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "豆瓣电影",
     "navigationBarTextStyle": "black"
   }
 
