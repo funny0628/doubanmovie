@@ -8,26 +8,32 @@
       <div class="right">打开豆瓣App</div>
     </div>
     <div class="container">
-      <p class="title"><span>影院热映</span><span @click="toMoreMove()">更多</span></p>
+      <p class="title">
+        <span>正在热映</span><span @click="toMoreMove(1)">更多</span>
+      </p>
       <div>
         <scroll-view scroll-x>
-          <card></card>
+          <card :List="currentmove"></card>
         </scroll-view>
       </div>
     </div>
     <div class="container">
-      <p class="title"><span>免费在线观影</span><span @click="toMoreMove()">更多</span></p>
+      <p class="title">
+        <span>即将上映</span><span @click="toMoreMove(2)">更多</span>
+      </p>
       <div>
         <scroll-view scroll-x>
-          <card></card>
+          <card :List="Comingsoonmove"></card>
         </scroll-view>
       </div>
     </div>
     <div class="container">
-      <p class="title"><span>新片速递</span><span @click="toMoreMove()">更多</span></p>
+      <p class="title">
+        <span>Top250</span><span @click="toMoreMove(3)">更多</span>
+      </p>
       <div>
         <scroll-view scroll-x>
-          <card></card>
+          <card :List="top250move"></card>
         </scroll-view>
       </div>
     </div>
@@ -48,7 +54,8 @@
       <ul class="ulclass">
         <li v-for="(itm, idx) in moveType" :key="idx">
           <span
-            ><i>{{ itm.name }}</i> <i @click="toType(itm.id)"> > </i></span>
+            ><i>{{ itm.name }}</i> <i @click="toType(itm.id)"> > </i></span
+          >
         </li>
       </ul>
     </div>
@@ -63,9 +70,12 @@ export default {
   },
   data() {
     return {
+      currentmove: [],
+      Comingsoonmove: [],
+      top250move: [],
       descType: [
         {
-          desc: "同时入选IMDB250和豆瓣电影250的电影",
+          desc: "同时入选【IMDB250】和豆瓣电影250的电影",
           color: "#65a9ef",
           border: "1px solid #65a9ef",
         },
@@ -157,13 +167,74 @@ export default {
       ],
     };
   },
-  methods: {
-    //更多电影
-    toMoreMove(){},
-    toType(id){},
-  },
 
-  created() {},
+
+  created() {
+    this.getcurrent();
+    this.getcommingsoon();
+    this.gettop250();
+  },
+  methods: {
+     //更多电影
+    toMoreMove(id) {
+      wx.navigateTo({
+        url:`/pages/moremove/main?typeid=${id}`
+      })
+    },
+    toType(id) {},
+    
+    filterNum(list){
+      list.forEach(item => {
+        if(!item.rating.average) return 
+        item.rating.integer = Math.floor(item.rating.average / 2)
+        item.rating.float = +(item.rating.average - (item.rating.integer * 2)).toFixed(1)
+      })
+      return list
+    },
+    getcurrent() {
+      let that = this
+      wx.request({
+        url: "http://huangjiangjun.top:9001/movie/in_theaters",
+        data:{
+          start:0,
+          count:8
+        },
+         success:(res) => {
+          if(res.statusCode){
+            this.currentmove = this.filterNum(res.data.subjects) || []
+          }
+        },
+      });
+    },
+    getcommingsoon() {
+      wx.request({
+        url: "http://huangjiangjun.top:9001/movie/coming_soon",
+        data:{
+          start:0,
+          count:8
+        },
+        success:(res) => {
+          if(res.statusCode){
+            this.Comingsoonmove = this.filterNum(res.data.subjects) || []
+          }
+        },
+      });
+    },
+    gettop250() {
+      wx.request({
+        url: "http://huangjiangjun.top:9001/movie/top250",
+        data:{
+          start:0,
+          count:8
+        },
+        success:(res) => {
+          if(res.statusCode){
+            this.top250move = this.filterNum(res.data.subjects) || []
+          }
+        },
+      });
+    },
+  },
 };
 </script>
 

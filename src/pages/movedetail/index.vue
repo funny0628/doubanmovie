@@ -1,30 +1,32 @@
 <template>
   <div class="detail">
     <div class="movedesc">
-      <p class="name">name</p>
+      <p class="name">{{moveData.title}}</p>
       <div class="msg">
         <div class="left">
           <div class="point">
-            <p>
-              <i
-                v-for="(item, index) in 4"
-                :key="index"
-                class="iconfont icon-star-full"
-              ></i>
-              <i v-if="1.6 > 1" class="iconfont icon-star-half"></i>
+            <p v-if="moveData.rating.integer">
+             <i
+              v-for="(itm, idx) in moveData.rating.integer"
+              :key="idx"
+              class="iconfont icon-star-full"
+            ></i>
+            <i v-if="moveData.rating.float > 1" class="iconfont icon-star-half"></i>
             </p>
-            <p>9.2</p>
-            <p>112983人评价</p>
+            <p>{{moveData.rating.average}}</p>
+            <p>{{moveData.ratings_count}}人评价</p>
           </div>
           <div class="movejieshao">
             <p>
-              105分钟/喜剧/动画/奇幻/105分钟/喜剧/动画/奇幻/105分钟/喜剧/动画/奇幻/105分钟/喜剧/动画/奇幻/105分钟/喜剧/动画/奇幻/105分钟/喜剧/动画/奇幻/105分钟/喜剧/动画/奇幻/105分钟/喜剧/动画/奇幻/
+              {{moveData.durations[0]}}/{{moveData.countries[0]}}/{{moveData.genres[0]}}/{{moveData.genres[1]}}/{{moveData.writers[0].name}}/{{moveData.casts[0].name}}
+              /{{moveData.casts[1].name}}/{{moveData.casts[2].name}}/{{moveData.casts[3].name}}/{{moveData.pubdate}}/ ({{moveData.countries[0]}}) 上映
+              
             </p>
           </div>
         </div>
         <div class="right">
           <img
-            src="https://hbimg.huabanimg.com/4845314ec5d5d4ddf3a97feafaaaa8bdb01648d5120be-l7PjG7_fw658/format/webp"
+            :src="moveData.images.large"
           />
         </div>
       </div>
@@ -40,10 +42,10 @@
       </ul>
     </div>
     <div class="dream">
-      <p class="title">寻梦环游记的剧情介绍</p>
+      <p class="title">{{moveData.title}}</p>
       <p class="desc">
-        {{ filterjieshao }}
-        <span v-if="filterjieshao.length < 36">... <span>(更多)</span> </span>
+        {{ moveData.summary | filterjieshao}}
+        <span v-if="moveData.summary.length > 36">... <span>(更多)</span> </span>
       </p>
     </div>
     <div class="people">
@@ -98,8 +100,30 @@
               </p>
               <p class="good">
                 <span
-                  ><i class="iconfont icon-dianzan_leave-copy"></i> <i>2566</i> </span
-                >
+                  ><i class="iconfont icon-dianzan_leave-copy"></i> <i>2566</i>
+                </span>
+                <span>...</span>
+              </p>
+            </div>
+          </li>
+          <li>
+            <div class="left">
+              <img
+                src="https://hbimg.huabanimg.com/4845314ec5d5d4ddf3a97feafaaaa8bdb01648d5120be-l7PjG7_fw658/format/webp"
+              />
+            </div>
+            <div class="right">
+              <p class="name">
+                name
+              </p>
+              <p class="time">2020-05-20 11:01:46</p>
+              <p class="comment">
+                播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特
+              </p>
+              <p class="good">
+                <span
+                  ><i class="iconfont icon-dianzan_leave-copy"></i> <i>2566</i>
+                </span>
                 <span>...</span>
               </p>
             </div>
@@ -117,20 +141,48 @@ export default {
       jieshao:
         "特定的无线电广播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段",
       shortjieshao: "",
+      moveData:{}
     };
   },
   beforeCreate() {
     let that = this;
   },
 
-  created() {},
-  computed: {
-    filterjieshao: function () {
-      if (this.jieshao.length > 35) {
-        console.log(this.jieshao.substr(0, 35));
-        return this.jieshao.substr(0, 35);
+  onLoad(query) {
+    console.log(query);
+    this.getmovedetail(query.moveid)
+  },
+  methods: {
+    filterNum(obj){
+    
+        if(!obj.rating.average) return 
+        obj.rating.integer = Math.floor(obj.rating.average / 2)
+        obj.rating.float = +(obj.rating.average - (obj.rating.integer * 2)).toFixed(1)
+   
+      return obj
+    },
+    getmovedetail(id) {
+      let that = this
+      wx.request({
+        url: `http://huangjiangjun.top:9001/movie/subject/${id}`,
+        success : (res) => {
+          console.log(res);
+          if(res.statusCode === 200){
+            this.moveData = this.filterNum(res.data) || {}
+          }
+        }
+      });
+    },
+  },
+  filters: {
+    filterjieshao: function (value) {
+      if (value.length > 35) {
+        console.log(value.length,"--");
+        console.log(value.substr(0, 35),"000");
+        return value.substr(0, 35);
       }
-      return this.jieshao;
+      console.log(value.length,"==");
+      return value;
     },
   },
 };
@@ -259,7 +311,7 @@ export default {
           display: flex;
           .left {
             flex: 1;
-            margin-right: .133333rem;
+            margin-right: 0.133333rem;
             img {
               width: 40px;
               height: 40px;
@@ -278,7 +330,7 @@ export default {
               font-size: 14px;
             }
             .comment {
-              font-size: .346667rem;
+              font-size: 0.346667rem;
             }
             .good {
               display: flex;
@@ -286,16 +338,14 @@ export default {
               padding-bottom: 20px;
               span {
                 i {
-                  
                   &:first-child {
-                    font-size: .426667rem ;
+                    font-size: 0.426667rem;
                   }
                   &:last-child {
-                      font-size: .373333rem;
+                    font-size: 0.373333rem;
                   }
                 }
               }
-
             }
           }
         }
