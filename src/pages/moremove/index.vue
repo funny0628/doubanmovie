@@ -1,6 +1,6 @@
 <template>
   <div class="moremove">
-    <p class="title">影院热映</p>
+    <p  class="title">影院热映</p>
     <div class="content">
       <card :List="DATALIST"></card>
     </div>
@@ -9,6 +9,7 @@
 
 <script>
 import card from "../../components/card.vue";
+import {store} from '../../store/index.js'
 export default {
   components: {
     card,
@@ -19,21 +20,18 @@ export default {
       DATALIST:[]
     };
   },
-  created() {
 
-  },
   onLoad(query) {
-    if (query.typeid === 1) {
-      console.log("1");
+    this.DATALIST = []
+    if (+query.typeid === 1) {
       this.getcurrent();
-    } else if (query.typeid === 2) {
-      console.log("2");
+    } else if (+query.typeid === 2) {
       this.getcommingsoon();
     } else {
-      console.log("3");
       this.gettop250();
     }
   },
+
   methods: {
     filterNum(list) {
       list.forEach((item) => {
@@ -55,7 +53,6 @@ export default {
           count: 30,
         },
         success: (res) => {
-          console.log(res);
           if (res.statusCode) {
             this.DATALIST = this.filterNum(res.data.subjects) || [];
           }
@@ -70,7 +67,6 @@ export default {
           count: 30,
         },
         success: (res) => {
-          console.log(res); 
           if (res.statusCode) {
             this.DATALIST = this.filterNum(res.data.subjects) || [];
           }
@@ -85,7 +81,6 @@ export default {
           count: 30,
         },
         success: (res) => {
-          console.log(res);
           if (res.statusCode) {
             this.DATALIST = this.filterNum(res.data.subjects) || [];
           }

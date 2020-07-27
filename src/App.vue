@@ -6,6 +6,11 @@
  * @LastEditors: sueRimn
  * @LastEditTime: 2020-07-21 11:30:20
 --> 
+<template>
+  <div>
+    <p>lodding...</p>
+  </div>
+</template>
 <script>
 export default {
   created () {
@@ -38,8 +43,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 @import '../static/iconfont.css';
-
+div {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    font-size: 14px;
+    color: #fff;
+  }
+}
 
 </style>

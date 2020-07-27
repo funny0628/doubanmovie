@@ -5,7 +5,7 @@
       <div class="msg">
         <div class="left">
           <div class="point">
-            <p v-if="moveData.rating.integer">
+            <p>
              <i
               v-for="(itm, idx) in moveData.rating.integer"
               :key="idx"
@@ -13,13 +13,12 @@
             ></i>
             <i v-if="moveData.rating.float > 1" class="iconfont icon-star-half"></i>
             </p>
-            <p>{{moveData.rating.average}}</p>
+            <p>{{moveData.rating.average === 0 ? '暂无评分' : moveData.rating.average}}</p>
             <p>{{moveData.ratings_count}}人评价</p>
           </div>
           <div class="movejieshao">
             <p>
-              {{moveData.durations[0]}}/{{moveData.countries[0]}}/{{moveData.genres[0]}}/{{moveData.genres[1]}}/{{moveData.writers[0].name}}/{{moveData.casts[0].name}}
-              /{{moveData.casts[1].name}}/{{moveData.casts[2].name}}/{{moveData.casts[3].name}}/{{moveData.pubdate}}/ ({{moveData.countries[0]}}) 上映
+              {{moveData.durations[0]}}/{{moveData.countries[0]}}/{{moveData.genres[0]}}/{{moveData.genres[1]}}/上映
               
             </p>
           </div>
@@ -44,8 +43,8 @@
     <div class="dream">
       <p class="title">{{moveData.title}}</p>
       <p class="desc">
-        {{ moveData.summary | filterjieshao}}
-        <span v-if="moveData.summary.length > 36">... <span>(更多)</span> </span>
+        {{ shortjieshao }}
+        <span v-if="moveData.summary.length > 36">... <span @click="all">({{activename}})</span> </span>
       </p>
     </div>
     <div class="people">
@@ -138,10 +137,9 @@
 export default {
   data() {
     return {
-      jieshao:
-        "特定的无线电广播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段",
       shortjieshao: "",
-      moveData:{}
+      moveData:{},
+      activename:'更多',
     };
   },
   beforeCreate() {
@@ -149,16 +147,23 @@ export default {
   },
 
   onLoad(query) {
-    console.log(query);
+    this.moveData = {}
     this.getmovedetail(query.moveid)
   },
   methods: {
+    all(){
+      if(this.activename === '更多'){
+        this.shortjieshao = this.moveData.summary;
+        this.activename = '收起'
+      }else{
+        this.shortjieshao = this.moveData.sub;
+        this.activename = '更多'
+      }
+    },
     filterNum(obj){
-    
-        if(!obj.rating.average) return 
         obj.rating.integer = Math.floor(obj.rating.average / 2)
-        obj.rating.float = +(obj.rating.average - (obj.rating.integer * 2)).toFixed(1)
-   
+        obj.rating.float = +(obj.rating.average - (obj.rating.integer * 2)).toFixed(1);
+        obj.sub = obj.summary.substr(0,35)
       return obj
     },
     getmovedetail(id) {
@@ -166,9 +171,9 @@ export default {
       wx.request({
         url: `http://huangjiangjun.top:9001/movie/subject/${id}`,
         success : (res) => {
-          console.log(res);
           if(res.statusCode === 200){
             this.moveData = this.filterNum(res.data) || {}
+            this.shortjieshao = this.moveData.sub
           }
         }
       });
@@ -177,11 +182,8 @@ export default {
   filters: {
     filterjieshao: function (value) {
       if (value.length > 35) {
-        console.log(value.length,"--");
-        console.log(value.substr(0, 35),"000");
         return value.substr(0, 35);
       }
-      console.log(value.length,"==");
       return value;
     },
   },

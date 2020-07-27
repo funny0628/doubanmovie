@@ -235,6 +235,15 @@ export default {
       });
     },
   },
+  //监听下拉动作
+  onPullDownRefresh(){
+    console.log("我在执行下拉刷新的动作，清除之前左右的数据，加载最初的数据");
+  },
+  //监听上拉加载
+  onReachBottom(){
+    console.log('我接触到底部了，需要加载新的数据了，这里因为接口有限制，就只有打印看一下效果，没有数据的操作');
+
+  }
 };
 </script>
 
