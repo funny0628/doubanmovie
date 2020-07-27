@@ -64,6 +64,7 @@
 
 <script>
 import card from "../../components/card.vue";
+import {myrequest} from '../../request/index.js'
 export default {
   components: {
     card,
@@ -191,20 +192,40 @@ export default {
       })
       return list
     },
-    getcurrent() {
-      let that = this
-      wx.request({
+    async getcurrent() {
+      //第一版自己封装的请求,但是觉得和原生的小程序的请求么有太大的差别 
+      // myrequest({
+      //   url: "http://huangjiangjun.top:9001/movie/in_theaters",
+      //    data:{
+      //     start:0,
+      //     count:8
+      //   },
+      //   succ:(res)=>{
+      //     console.log(res);
+      //     this.currentmove = this.filterNum(res.data.subjects) || []
+      //   }
+      // })
+
+      //第二版封装的请求,可以直接使用promise的then方法,
+      // myrequest({
+      //   url: "http://huangjiangjun.top:9001/movie/in_theaters",
+      //    data:{
+      //     start:0,
+      //     count:8
+      //   },
+      // }).then((res)=>{
+      //   this.currentmove = this.filterNum(res.data.subjects) || []
+      // })
+
+      //还可以使用async .await 来修饰Promise的请求
+      let res = await myrequest({
         url: "http://huangjiangjun.top:9001/movie/in_theaters",
-        data:{
+         data:{
           start:0,
           count:8
         },
-         success:(res) => {
-          if(res.statusCode){
-            this.currentmove = this.filterNum(res.data.subjects) || []
-          }
-        },
-      });
+      })
+      this.currentmove = this.filterNum(res.data.subjects) || []
     },
     getcommingsoon() {
       wx.request({
