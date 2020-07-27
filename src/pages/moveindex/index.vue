@@ -219,7 +219,7 @@ export default {
 
       //还可以使用async .await 来修饰Promise的请求
       let res = await myrequest({
-        url: "http://huangjiangjun.top:9001/movie/in_theaters",
+        url: "/in_theaters",
          data:{
           start:0,
           count:8

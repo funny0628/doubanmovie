@@ -16,10 +16,12 @@
 // }
 
 //第二版封装的请求
+//设置一个请求的基地址
+let URL = "http://huangjiangjun.top:9001/movie"
 export function myrequest(option) {
     return new Promise((resolve, reject) => {
         wx.request({
-            url: option.url,
+            url: URL + option.url,
             method: option.method || 'GET',
             header: option.headerheader || 'conent-type',
             dataType: option.dataType || 'json',
