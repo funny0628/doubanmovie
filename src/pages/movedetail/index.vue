@@ -1,11 +1,11 @@
 <template>
   <div class="detail">
     <div class="movedesc">
-      <p class="name">{{moveData.title}}</p>
+      <p class="name">{{moveData.title}}  ( {{moveData.year}})</p>
       <div class="msg">
         <div class="left">
-          <div class="point">
-            <p>
+          <div class="point" v-if="moveData.rating">
+            <p >
              <i
               v-for="(itm, idx) in moveData.rating.integer"
               :key="idx"
@@ -17,13 +17,13 @@
             <p>{{moveData.ratings_count}}人评价</p>
           </div>
           <div class="movejieshao">
-            <p>
-              {{moveData.durations[0]}}/{{moveData.countries[0]}}/{{moveData.genres[0]}}/{{moveData.genres[1]}}/上映
+            <p v-if="moveData.durations">
+              {{moveData.countries[0]}}/{{moveData.genres[0]}}/{{moveData.genres[1]}}/{{moveData.pubdates[1]}}上映/片长{{moveData.durations[0]}}
               
             </p>
           </div>
         </div>
-        <div class="right">
+        <div class="right" v-if="moveData.images">
           <img
             :src="moveData.images.large"
           />
@@ -37,12 +37,12 @@
     <div class="channel">
       <p class="title">所属频道</p>
       <ul>
-        <li v-for="(item, index) in 10" :key="item">温情 ></li>
+        <li v-for="(item, index) in moveData.tags" :key="item">{{item}} ></li>
       </ul>
     </div>
     <div class="dream">
       <p class="title">{{moveData.title}}</p>
-      <p class="desc">
+      <p class="desc" v-if="moveData.summary">
         {{ shortjieshao }}
         <span v-if="moveData.summary.length > 36">... <span @click="all">({{activename}})</span> </span>
       </p>
@@ -52,12 +52,12 @@
       <div class="container">
         <div>
           <scroll-view scroll-x>
-            <div v-for="(item, index) in 5" :key="index">
+            <div v-for="(item, index) in moveData.casts" :key="index">
               <img
-                src="https://hbimg.huabanimg.com/4845314ec5d5d4ddf3a97feafaaaa8bdb01648d5120be-l7PjG7_fw658/format/webp"
+               :src="item.avatars.small"
               />
-              <p class="name">name</p>
-              <p class="point">pingfen</p>
+              <p class="name">{{item.name}}</p>
+              <p class="point">{{item.name_en}}</p>
             </div>
           </scroll-view>
         </div>
@@ -68,12 +68,10 @@
       <div class="container">
         <div>
           <scroll-view scroll-x>
-            <div v-for="(item, index) in 5" :key="index">
+            <div v-for="(item, index) in moveData.trailers" :key="index">
               <img
-                src="https://hbimg.huabanimg.com/4845314ec5d5d4ddf3a97feafaaaa8bdb01648d5120be-l7PjG7_fw658/format/webp"
+                :src="item.medium"
               />
-              <p class="name">name</p>
-              <p class="point">pingfen</p>
             </div>
           </scroll-view>
         </div>
@@ -83,7 +81,7 @@
       <p class="title">寻梦环游记的短评</p>
       <div class="container">
         <ul>
-          <li>
+          <li v-for="(it,inx) in moveData.popular_comments" :key="inx">
             <div class="left">
               <img
                 src="https://hbimg.huabanimg.com/4845314ec5d5d4ddf3a97feafaaaa8bdb01648d5120be-l7PjG7_fw658/format/webp"
@@ -91,42 +89,21 @@
             </div>
             <div class="right">
               <p class="name">
-                name
+                {{it.author.name}}
               </p>
-              <p class="time">2020-05-20 11:01:46</p>
+              <p class="time">{{it.created_at}}</p>
               <p class="comment">
-                播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特
+                {{it.content}}
               </p>
               <p class="good">
                 <span
-                  ><i class="iconfont icon-dianzan_leave-copy"></i> <i>2566</i>
+                  ><i class="iconfont icon-dianzan_leave-copy"></i> <i>{{it.useful_count}}</i>
                 </span>
                 <span>...</span>
               </p>
             </div>
           </li>
-          <li>
-            <div class="left">
-              <img
-                src="https://hbimg.huabanimg.com/4845314ec5d5d4ddf3a97feafaaaa8bdb01648d5120be-l7PjG7_fw658/format/webp"
-              />
-            </div>
-            <div class="right">
-              <p class="name">
-                name
-              </p>
-              <p class="time">2020-05-20 11:01:46</p>
-              <p class="comment">
-                播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特播频率或其它无线电通讯频率的波段特定的无线电广播频率或其它无线电通讯频率的波段特
-              </p>
-              <p class="good">
-                <span
-                  ><i class="iconfont icon-dianzan_leave-copy"></i> <i>2566</i>
-                </span>
-                <span>...</span>
-              </p>
-            </div>
-          </li>
+         
         </ul>
       </div>
     </div>
@@ -161,7 +138,7 @@ export default {
       }
     },
     filterNum(obj){
-        obj.rating.integer = Math.floor(obj.rating.average / 2)
+        obj.rating.integer = Math.floor(obj.rating.average / 2);
         obj.rating.float = +(obj.rating.average - (obj.rating.integer * 2)).toFixed(1);
         obj.sub = obj.summary.substr(0,35)
       return obj
@@ -174,6 +151,7 @@ export default {
           if(res.statusCode === 200){
             this.moveData = this.filterNum(res.data) || {}
             this.shortjieshao = this.moveData.sub
+            console.log(this.moveData);
           }
         }
       });
@@ -379,7 +357,7 @@ export default {
             height: 2.666667rem;
           }
           p {
-            font-size: 0.373333rem;
+            font-size: 13px;
             line-height: 0.533333rem;
             text-align: center;
             overflow: hidden; /*超出部分隐藏*/
